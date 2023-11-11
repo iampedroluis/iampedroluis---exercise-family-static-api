@@ -35,8 +35,23 @@ def handle_hello():
         "family": members
     }
 
+    return jsonify(members), 200
 
-    return jsonify(response_body), 200
+@app.route('/member', methods=['POST'])
+def add_member():
+    data = request.json
+    new_member = jackson_family.add_member(data)
+    return jsonify(new_member),200
+
+@app.route('/member/<int:id>', methods=['DELETE'])
+def delete_member(id):
+    deletemember = jackson_family.delete_member(id)
+    return jsonify({"done": True}),200
+
+@app.route('/member/<int:id>', methods=['GET'])
+def get_member(id):
+    member = jackson_family.get_member(id)
+    return jsonify(member)
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
